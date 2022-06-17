@@ -1,0 +1,26 @@
+<div class="h-screen">
+  <div class="grid grid-cols-4 gap-4 h-auto">
+    <div class="card col-start-2 col-span-2 bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Add Poem from Slack</h2>
+        <.form let={f} for={:unparsed} phx-change="parse" class="w-full h-full">
+          <%= textarea(f, :text, class: "w-full h-80 textarea textarea-primary", placeholder: "Paste Entry from Slack") %>
+        </.form>
+
+        <div class="mt-4 grid grid-cols-4 gap-4">
+          <div class="col-span-2 prose">
+            <h3><%= @parsed_date %></h3>
+            <p><%= raw @parsed_text %></p>
+          </div>
+          <.form let={f} for={:date} phx-change="set-date" class="col-span-1">
+            <%= date_input(f, :date, class: "input input-primary") %>
+          </.form>
+        </div>
+
+        <div class="card-actions justify-end">
+          <button phx-click="save" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

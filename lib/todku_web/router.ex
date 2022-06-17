@@ -1,6 +1,8 @@
 defmodule TodkuWeb.Router do
   use TodkuWeb, :router
 
+  alias Plugs.Redirect
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -17,13 +19,14 @@ defmodule TodkuWeb.Router do
   scope "/", TodkuWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-  end
+    get "/", Redirect, to: "/poems"
 
-  # Other scopes may use custom stacks.
-  # scope "/api", TodkuWeb do
-  #   pipe_through :api
-  # end
+    live "/poems", PoemsLive.Index, :index
+    live "/poems/new", PoemsLive.New, :new
+
+    live "/poems/:id", PoemsLive.Show, :show
+    live "/poems/:id/show/edit", PoemsLive.Show, :edit
+  end
 
   # Enables LiveDashboard only for development
   #

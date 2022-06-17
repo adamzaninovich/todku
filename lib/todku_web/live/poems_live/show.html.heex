@@ -1,0 +1,31 @@
+<h1>Show Poems</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.poems_show_path(@socket, :show, @poems)}>
+    <.live_component
+      module={TodkuWeb.PoemsLive.FormComponent}
+      id={@poems.id}
+      title={@page_title}
+      action={@live_action}
+      poems={@poems}
+      return_to={Routes.poems_show_path(@socket, :show, @poems)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @poems.date %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @poems.text %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.poems_show_path(@socket, :edit, @poems), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.poems_index_path(@socket, :index) %></span>
