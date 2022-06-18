@@ -2,7 +2,7 @@ defmodule TodkuWeb.PoemsLive.New do
   use TodkuWeb, :live_view
 
   alias Todku.Entries
-  alias Todku.Entries.Poems
+  alias Todku.Entries.Poem
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,8 +21,8 @@ defmodule TodkuWeb.PoemsLive.New do
       text: socket.assigns.parsed_text
     }
 
-    case Entries.create_poems(poem_params) do
-      {:ok, _poems} ->
+    case Entries.create_poem(poem_params) do
+      {:ok, _poem} ->
         {:noreply,
          socket
          |> put_flash(:info, "Poem created successfully")

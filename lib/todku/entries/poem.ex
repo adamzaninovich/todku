@@ -1,4 +1,4 @@
-defmodule Todku.Entries.Poems do
+defmodule Todku.Entries.Poem do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -10,8 +10,8 @@ defmodule Todku.Entries.Poems do
   end
 
   @doc false
-  def changeset(poems, attrs) do
-    poems
+  def changeset(poem, attrs) do
+    poem
     |> cast(attrs, [:date, :text])
     |> validate_required([:date, :text])
   end

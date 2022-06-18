@@ -6,7 +6,7 @@ defmodule Todku.Entries do
   import Ecto.Query, warn: false
   alias Todku.Repo
 
-  alias Todku.Entries.Poems
+  alias Todku.Entries.Poem
 
   @doc """
   Returns the list of poems.
@@ -14,92 +14,110 @@ defmodule Todku.Entries do
   ## Examples
 
       iex> list_poems()
-      [%Poems{}, ...]
+      [%Poem{}, ...]
 
   """
   def list_poems do
-    query = from p in Poems, order_by: [desc: p.date]
+    query = from p in Poem, order_by: [desc: p.date]
     Repo.all(query)
   end
 
-  @doc """
-  Gets a single poems.
+  def search_poems(search_terms) do
+    Poem
+    |> where(
+      [q],
+      fragment("? @@ websearch_to_tsquery('english', ?)", q.searchable, ^search_terms)
+    )
+    |> order_by([q],
+      asc:
+        fragment(
+          "ts_rank_cd(?, websearch_to_tsquery('english', ?), 4)",
+          q.searchable,
+          ^search_terms
+        ),
+      desc: q.date
+    )
+    |> Repo.all()
+  end
 
-  Raises `Ecto.NoResultsError` if the Poems does not exist.
+  @doc """
+  Gets a single poem.
+
+  Raises `Ecto.NoResultsError` if the Poem does not exist.
 
   ## Examples
 
-      iex> get_poems!(123)
-      %Poems{}
+      iex> get_poem!(123)
+      %Poem{}
 
-      iex> get_poems!(456)
+      iex> get_poem!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_poems!(id), do: Repo.get!(Poems, id)
+  def get_poem!(id), do: Repo.get!(Poem, id)
 
   @doc """
-  Creates a poems.
+  Creates a poem.
 
   ## Examples
 
-      iex> create_poems(%{field: value})
-      {:ok, %Poems{}}
+      iex> create_poem(%{field: value})
+      {:ok, %Poem{}}
 
-      iex> create_poems(%{field: bad_value})
+      iex> create_poem(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_poems(attrs \\ %{}) do
-    %Poems{}
-    |> Poems.changeset(attrs)
+  def create_poem(attrs \\ %{}) do
+    %Poem{}
+    |> Poem.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a poems.
+  Updates a poem.
 
   ## Examples
 
-      iex> update_poems(poems, %{field: new_value})
-      {:ok, %Poems{}}
+      iex> update_poem(poem, %{field: new_value})
+      {:ok, %Poem{}}
 
-      iex> update_poems(poems, %{field: bad_value})
+      iex> update_poem(poem, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_poems(%Poems{} = poems, attrs) do
-    poems
-    |> Poems.changeset(attrs)
+  def update_poem(%Poem{} = poem, attrs) do
+    poem
+    |> Poem.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a poems.
+  Deletes a poem.
 
   ## Examples
 
-      iex> delete_poems(poems)
-      {:ok, %Poems{}}
+      iex> delete_poem(poem)
+      {:ok, %Poem{}}
 
-      iex> delete_poems(poems)
+      iex> delete_poem(poem)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_poems(%Poems{} = poems) do
-    Repo.delete(poems)
+  def delete_poem(%Poem{} = poem) do
+    Repo.delete(poem)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking poems changes.
+  Returns an `%Ecto.Changeset{}` for tracking poem changes.
 
   ## Examples
 
-      iex> change_poems(poems)
-      %Ecto.Changeset{data: %Poems{}}
+      iex> change_poem(poem)
+      %Ecto.Changeset{data: %Poem{}}
 
   """
-  def change_poems(%Poems{} = poems, attrs \\ %{}) do
-    Poems.changeset(poems, attrs)
+  def change_poem(%Poem{} = poem, attrs \\ %{}) do
+    Poem.changeset(poem, attrs)
   end
 end

@@ -1,31 +1,28 @@
-<h1>Show Poems</h1>
+<div class="h-screen">
+  <.form let={form} for={@changeset} id="poem-form" phx-submit="save">
+    <div class="grid grid-cols-1 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-8 xl:grid-cols-5">
+      <div class="col-span-1 sm:col-start-3 sm:col-span-3 md:col-start-2 md:col-span-1 lg:col-start-4 lg:col-span-2 xl:col-start-3 xl:col-span-1 card bg-base-100 shadow-xl mx-4 sm:mx-0 md:mx-0 lg:mx-0 xl:mx-0 2xl:mx-0" id={"poem-#{@poem.id}"}>
+        <div class="card-body items-center text-center">
+          <%= if @live_action == :edit do %>
+            <%= date_input(form, :date, class: "mb-4 input input-primary") %>
+            <%= textarea(form, :text, class: "h-28 textarea textarea-primary text-center") %>
+          <% else %>
+            <h2 class="card-title"><%= Calendar.strftime(@poem.date, "%a, %b %d %Y") %></h2>
+            <p><%= raw @poem.text %></p>
+          <% end %>
+        </div>
+      </div>
 
-<%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.poems_show_path(@socket, :show, @poems)}>
-    <.live_component
-      module={TodkuWeb.PoemsLive.FormComponent}
-      id={@poems.id}
-      title={@page_title}
-      action={@live_action}
-      poems={@poems}
-      return_to={Routes.poems_show_path(@socket, :show, @poems)}
-    />
-  </.modal>
-<% end %>
-
-<ul>
-
-  <li>
-    <strong>Date:</strong>
-    <%= @poems.date %>
-  </li>
-
-  <li>
-    <strong>Text:</strong>
-    <%= @poems.text %>
-  </li>
-
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.poems_show_path(@socket, :edit, @poems), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.poems_index_path(@socket, :index) %></span>
+      <div class="col-span-full my-4 items-center text-center w-full">
+        <%= if @live_action == :edit do %>
+          <%= live_redirect "Cancel", to: Routes.poems_show_path(@socket, :show, @poem), class: "btn btn-ghost" %>
+          <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-primary" %>
+        <% else %>
+          <%= live_redirect "Back", to: Routes.poems_index_path(@socket, :index), class: "btn btn-ghost" %>
+          <%= live_patch "Edit", to: Routes.poems_show_path(@socket, :edit, @poem), class: "btn btn-accent" %>
+          <%= link "Delete", to: "#", class: "btn btn-secondary", phx_click: "delete", phx_value_id: @poem.id, data: [confirm: "Are you sure?"] %>
+        <% end %>
+      </div>
+    </div>
+  </.form>
+</div>

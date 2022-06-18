@@ -19,17 +19,19 @@
 //     import "some-package"
 //
 
-import Alpine from "alpinejs";
-
-// Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
-// Establish Phoenix Socket and LiveView configuration.
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import Theme from "./theme.js";
+import Alpine from "alpinejs";
+
+window.Theme = Theme
+Theme.init('cupcake', 'dracula', 'page')
 
 window.Alpine = Alpine;
 Alpine.start();
+
 let hooks = {};
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
@@ -57,4 +59,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
