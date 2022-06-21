@@ -24,6 +24,14 @@ defmodule TodkuWeb.PoemsLive.Show do
        |> assign(:changeset, changeset)}
   end
 
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    poem = Entries.get_poem!(id)
+    {:ok, _} = Entries.delete_poem(poem)
+
+    {:noreply, push_redirect(socket, to: Routes.poems_index_path(socket, :index))}
+  end
+
   def handle_event("save", _params, socket) do
     poem_params = %{
       date: socket.assigns.parsed_date,

@@ -12,8 +12,10 @@
             <h3><%= @parsed_date %></h3>
             <p><%= raw @parsed_text %></p>
           </div>
-          <.form let={f} for={:date} phx-change="set-date" class="col-span-1">
-            <%= date_input(f, :date, class: "input input-primary") %>
+          <.form let={f} for={:date} phx-change="set-date" class="col-span-2">
+            <div class="form-control">
+              <%= date_input(f, :date, class: "input input-primary") %>
+            </div>
           </.form>
         </div>
 
@@ -23,4 +25,19 @@
       </div>
     </div>
   </div>
+</div>
+
+<input type="checkbox" id="my-modal" class="modal-toggle" checked={not authed?(@password)} />
+<div class="modal">
+  <.form let={f} for={:auth} phx-submit="set-password">
+    <div class="modal-box w-auto">
+      <h3 class="font-bold text-lg">Please log in first</h3>
+      <div class="form-control py-4 mx-8">
+        <div class="input-group">
+          <%= password_input(f, :password, placeholder: "Password", class: "input input-primary") %>
+          <%= submit "Submit", phx_disable_with: "Authenticating...", class: "btn" %>
+        </div>
+      </div>
+    </div>
+  </.form>
 </div>

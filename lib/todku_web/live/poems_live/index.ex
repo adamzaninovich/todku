@@ -64,13 +64,6 @@ defmodule TodkuWeb.PoemsLive.Index do
     {:noreply, assign(socket, :poems_collection, poems)}
   end
 
-  def handle_event("delete", %{"id" => id}, socket) do
-    poem = Entries.get_poem!(id)
-    {:ok, _} = Entries.delete_poem(poem)
-
-    {:noreply, assign(socket, :poems_collection, list_poems())}
-  end
-
   defp list_poems do
     Entries.list_poems()
   end
