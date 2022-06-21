@@ -23,7 +23,6 @@ defmodule TodkuWeb.PoemsLive.New do
 
   @impl true
   def handle_event("set-password", %{"auth" => %{"password" => password}}, socket) do
-    IO.puts("settings ps to '#{password}'")
     {:noreply, assign(socket, :password, password)}
   end
 

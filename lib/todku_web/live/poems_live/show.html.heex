@@ -13,15 +13,42 @@
         </div>
       </div>
 
-      <div class="col-span-full my-4 items-center text-center w-full">
+      <div class="col-span-1 sm:col-start-3 sm:col-span-3 md:col-start-2 md:col-span-1 lg:col-start-4 lg:col-span-2 xl:col-start-3 xl:col-span-1 mx-4 sm:mx-0 md:mx-0 lg:mx-0 xl:mx-0 2xl:mx-0
+      col-span-full my-4 items-center text-center flex gap-2">
         <%= if @live_action == :edit do %>
-          <%= live_redirect "Cancel", to: Routes.poems_show_path(@socket, :show, @poem), class: "btn btn-ghost" %>
-          <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-primary" %>
+          <div class="flex-1 bg-accent" />
+          <%= live_redirect "Cancel", to: Routes.poems_show_path(@socket, :show, @poem), class: "btn btn-ghost flex-none" %>
+          <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-primary flex-none" %>
+          <div class="flex-1 bg-accent" />
         <% else %>
-          <%= live_redirect "Back", to: Routes.poems_index_path(@socket, :index), class: "btn btn-ghost" %>
-          <%= live_patch "Edit", to: Routes.poems_show_path(@socket, :edit, @poem), class: "btn btn-accent" %>
-          <%= link "Delete", to: "#", class: "btn btn-secondary", phx_click: "delete", phx_value_id: @poem.id, data: [confirm: "Are you sure?"] %>
+          <%= live_redirect "Back", to: Routes.poems_index_path(@socket, :index), class: "btn btn-ghost flex-none" %>
+          <%= if @admin do %>
+            <%= live_patch "Edit", to: Routes.poems_show_path(@socket, :edit, @poem), class: "btn btn-accent flex-auto" %>
+            <%= link "Delete", to: "#", class: "btn btn-secondary flex-auto", phx_click: "delete", phx_value_id: @poem.id, data: [confirm: "Are you sure?"] %>
+          <% else %>
+            <a role="button" class="btn flex-auto" phx-click="activate-admin">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+              </svg>
+              Unlock Admin
+            </a>
+          <% end %>
         <% end %>
+      </div>
+    </div>
+  </.form>
+</div>
+
+<input type="checkbox" id="my-modal" class="modal-toggle" checked={@admin and not authed?(@password)} />
+<div class="modal">
+  <.form let={f} for={:auth} phx-submit="set-password">
+    <div class="modal-box w-auto">
+      <h3 class="font-bold text-lg">Please log in first</h3>
+      <div class="form-control py-4 mx-8">
+        <div class="input-group">
+          <%= password_input(f, :password, placeholder: "Password", class: "input input-primary") %>
+          <%= submit "Submit", phx_disable_with: "Authenticating...", class: "btn" %>
+        </div>
       </div>
     </div>
   </.form>
