@@ -4,17 +4,11 @@ defmodule Todku.Repo.Migrations.AddSearchToPoems do
   @disable_migration_lock true
 
   def change do
-    execute """
-            ALTER TABLE poems
-            ADD COLUMN searchable tsvector
-            GENERATED ALWAYS AS (
-              to_tsvector('english', coalesce(text, ''))
-            ) STORED
-            """,
-            "ALTER TABLE poems DROP COLUMN searchable"
+    execute "CREATE EXTENSION IF NOT EXISTS pg_trgm;",
+            "DROP EXTENSION pg_trgm;"
 
-    create index("poems", ["searchable"],
-             name: :poems_searchable_index,
+    create index("poems", ["text gin_trgm_ops"],
+             name: :poems_text_trgm_index,
              using: "GIN",
              concurrently: true
            )

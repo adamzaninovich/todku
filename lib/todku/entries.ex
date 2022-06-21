@@ -22,20 +22,11 @@ defmodule Todku.Entries do
     Repo.all(query)
   end
 
-  def search_poems(search_terms) do
-    Poem
-    |> where(
-      [q],
-      fragment("? @@ websearch_to_tsquery('english', ?)", q.searchable, ^search_terms)
-    )
-    |> order_by([q],
-      asc:
-        fragment(
-          "ts_rank_cd(?, websearch_to_tsquery('english', ?), 4)",
-          q.searchable,
-          ^search_terms
-        ),
-      desc: q.date
+  def search_poems(term) do
+    from(
+      p in Poem,
+      where: fragment("strict_word_similarity(?, ?) > 0.1", ^term, p.text),
+      order_by: [desc: fragment("strict_word_similarity(?, ?)", ^term, p.text)]
     )
     |> Repo.all()
   end
