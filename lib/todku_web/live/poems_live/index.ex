@@ -5,10 +5,6 @@ defmodule TodkuWeb.PoemsLive.Index do
   alias Todku.Entries.Poem
   alias TodkuWeb.PoemLive.PoemComponent
 
-  # TODO
-  # - add login with github
-  # - deploy with docker
-
   def render_search(assigns) do
     ~H"""
     <.form let={f} for={:search} id="search-form" phx-change="search">
