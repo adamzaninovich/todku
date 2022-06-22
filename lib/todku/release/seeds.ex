@@ -11,7 +11,9 @@ defmodule Todku.Release.Seeds do
   end
 
   defp clean() do
-    Repo.delete_all(Entries.Poem)
+    if length(Entries.list_poems) < length(poems()) do
+      Repo.delete_all(Entries.Poem)
+    end
   end
 
   defp poems do
