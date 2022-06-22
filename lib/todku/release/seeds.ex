@@ -6,14 +6,14 @@ defmodule Todku.Release.Seeds do
 
   def seed do
     Repo.start_link()
-    clean()
-    Enum.each(poems(), &Entries.create_poem/1)
+    if length(Entries.list_poems) < length(poems()) do
+      clean()
+      Enum.each(poems(), &Entries.create_poem/1)
+    end
   end
 
   defp clean() do
-    if length(Entries.list_poems) < length(poems()) do
-      Repo.delete_all(Entries.Poem)
-    end
+    Repo.delete_all(Entries.Poem)
   end
 
   defp poems do
