@@ -17,9 +17,6 @@ config :todku, TodkuWeb.Endpoint,
   pubsub_server: Todku.PubSub,
   live_view: [signing_salt: "CTDh620g"]
 
-config :todku,
-  password: System.get_env("PHX_PASSWORD")
-
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 

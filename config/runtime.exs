@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :todku, TodkuWeb.Endpoint, server: true
 end
 
+config :todku,
+  password: System.get_env("PHX_PASSWORD")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

@@ -22,7 +22,7 @@ ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 FROM ${BUILDER_IMAGE} as builder
 
 # install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git \
+RUN apt-get update -y && apt-get install -y build-essential npm git \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # prepare build dir
@@ -53,6 +53,7 @@ COPY lib lib
 COPY assets assets
 
 # compile assets
+RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 RUN mix assets.deploy
 
 # Compile the release
@@ -60,6 +61,8 @@ RUN mix compile
 
 # Changes to config/runtime.exs don't require recompiling the code
 COPY config/runtime.exs config/
+
+COPY run.sh run.sh
 
 COPY rel rel
 RUN mix release
@@ -86,7 +89,8 @@ ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/todku ./
+COPY --from=builder --chown=nobody:root /app/run.sh .
 
 USER nobody
 
-CMD ["/app/bin/server"]
+CMD ["/app/run.sh"]

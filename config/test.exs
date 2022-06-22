@@ -20,9 +20,6 @@ config :todku, TodkuWeb.Endpoint,
   secret_key_base: "6BO01YXjOy6BOmLoddzS0Pm7m6TMxsGLgouOIcT8WH7t4uBO1cOpbCSkeWYkkTYa",
   server: false
 
-# In test we don't send emails.
-config :todku, Todku.Mailer, adapter: Swoosh.Adapters.Test
-
 # Print only warnings and errors during test
 config :logger, level: :warn
 

@@ -4,16 +4,17 @@ defmodule Todku.Release.Seeds do
     Repo
   }
 
-  def clean do
-    Repo.delete_all(Entries.Poem)
-  end
-
   def seed do
+    Repo.start_link()
     clean()
     Enum.each(poems(), &Entries.create_poem/1)
   end
 
-  def poems do
+  defp clean() do
+    Repo.delete_all(Entries.Poem)
+  end
+
+  defp poems do
     [
       %{
         date: ~D[2022-06-22],
