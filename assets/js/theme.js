@@ -18,7 +18,7 @@ let Theme = {
       let page = document.getElementById("page");
 
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        page.dataset.theme = window.Theme.dark
+        page.dataset.theme = window.Theme.light
       } else {
         page.dataset.theme = window.Theme.light
       }
