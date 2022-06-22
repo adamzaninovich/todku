@@ -8,6 +8,6 @@ defmodule TodkuWeb.AboutLive do
 
   @impl true
   def handle_params(_params, _url, socket) do
-    {:ok, socket}
+    {:noreply, socket}
   end
 end
