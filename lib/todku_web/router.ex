@@ -21,6 +21,8 @@ defmodule TodkuWeb.Router do
 
     get "/", Redirect, to: "/poems"
 
+    live "/about", AboutLive, :index
+
     live "/poems", PoemsLive.Index, :index
     live "/poems/new", PoemsLive.New, :new
 
