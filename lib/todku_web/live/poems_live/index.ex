@@ -3,11 +3,11 @@ defmodule TodkuWeb.PoemsLive.Index do
 
   alias Todku.Entries
   alias Todku.Entries.Poem
+  alias TodkuWeb.PoemLive.PoemComponent
 
   # TODO
-  # - make about page
-  # - figure out export/import
-  # - password protect add/edit pages
+  # - add login with github
+  # - deploy with docker
 
   def render_search(assigns) do
     ~H"""

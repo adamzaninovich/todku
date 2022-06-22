@@ -2,6 +2,7 @@ defmodule TodkuWeb.PoemsLive.Show do
   use TodkuWeb, :live_view
 
   alias Todku.Entries
+  alias TodkuWeb.PoemLive.PoemComponent
 
   @password "password"
 
@@ -56,19 +57,24 @@ defmodule TodkuWeb.PoemsLive.Show do
     end
   end
 
-  def handle_event("save", params, socket) do
+  def handle_event("save", %{"poem" => %{"text" => raw_text} = poem_params}, socket) do
     if authed?(socket.assigns.password) do
-      poem_params = params
+      poem_params = Map.put(poem_params, "text", Entries.parse_text(raw_text))
 
-      case Entries.update_poem(socket.poem, poem_params) do
-        {:ok, _poem} ->
+      case Entries.update_poem(socket.assigns.poem, poem_params) do
+        {:ok, poem} ->
           {:noreply,
            socket
-           |> put_flash(:info, "Poem created successfully")
-           |> push_redirect(to: Routes.poems_new_path(socket, :new))}
+           |> put_flash(:info, "Poem updated successfully")
+           |> push_redirect(to: Routes.poems_show_path(socket, :show, poem))}
 
         {:error, %Ecto.Changeset{} = changeset} ->
-          {:noreply, put_flash(socket, :error, "Errors: #{inspect(changeset.errors)}")}
+          socket =
+            socket
+            |> assign(:changeset, changeset)
+            |> put_flash(:error, "Errors: #{inspect(changeset.errors)}")
+
+          {:noreply, socket}
       end
     else
       socket =

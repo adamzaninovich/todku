@@ -61,16 +61,6 @@ defmodule TodkuWeb.PoemsLive.New do
   end
 
   def handle_event("parse", %{"unparsed" => %{"text" => text}}, socket) do
-    text =
-      text
-      |> String.replace(~r/[<>]/, "")
-      |> String.replace("\n", "<br>")
-      |> String.replace(~r/.*Anything blocking your progress\?<br>/, "")
-
-    socket =
-      socket
-      |> assign(:parsed_text, text)
-
-    {:noreply, socket}
+    {:noreply, assign(socket, :parsed_text, Entries.parse_text(text))}
   end
 end

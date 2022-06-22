@@ -8,6 +8,13 @@ defmodule Todku.Entries do
 
   alias Todku.Entries.Poem
 
+  def parse_text(raw_text) do
+    raw_text
+    |> String.replace(~r/[<>]/, "")
+    |> String.replace("\n", "<br>")
+    |> String.replace(~r/.*Anything blocking your progress\?<br>/, "")
+  end
+
   @doc """
   Returns the list of poems.
 
