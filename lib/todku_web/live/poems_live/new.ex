@@ -3,7 +3,7 @@ defmodule TodkuWeb.PoemsLive.New do
 
   alias Todku.Entries
 
-  @password "password"
+  @password Application.compile_env(:todku, :password, "password")
 
   def authed?(password) do
     password == @password

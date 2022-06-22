@@ -17,14 +17,8 @@ config :todku, TodkuWeb.Endpoint,
   pubsub_server: Todku.PubSub,
   live_view: [signing_salt: "CTDh620g"]
 
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :todku, Todku.Mailer, adapter: Swoosh.Adapters.Local
+config :todku,
+  password: System.get_env("PHX_PASSWORD")
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false

@@ -1,6 +1,5 @@
 defmodule TodkuWeb.Plugs.Redirect do
-  import Plug.Conn
-  # import Phoenix.Controller, only: [redirect: 2]
+  @moduledoc "Allows easy redirection in the router"
 
   def init(to: path), do: path
 
