@@ -4,7 +4,7 @@ defmodule TodkuWeb.PoemsLive.New do
   alias Todku.Entries
 
   defp password do
-    Application.get_env(:todku, :password, "password")
+    Application.get_env(:todku, :password, :unset)
   end
 
   def authed?(password) do

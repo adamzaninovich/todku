@@ -20,8 +20,13 @@ if System.get_env("PHX_SERVER") do
   config :todku, TodkuWeb.Endpoint, server: true
 end
 
-config :todku,
-  password: System.get_env("PHX_PASSWORD")
+password =
+    System.get_env("PHX_PASSWORD") ||
+      raise """
+      environment variable PHX_PASSWORD is missing.
+      """
+
+config :todku, password: password
 
 if config_env() == :prod do
   database_url =
