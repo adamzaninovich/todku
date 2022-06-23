@@ -27,7 +27,7 @@
 </div>
 
 <input type="checkbox" id="auth-modal" class="modal-toggle" checked={not authed?(@password)} />
-<div class="modal" x-data="{ shown: <%= not authed?(@password) %> }" x-init="
+<div class="modal" x-data={"{ shown: #{not authed?(@password)} }"} x-init="
   if (shown) {
     $nextTick(() => { $el.getElementsByTagName("input")[0].focus() })
   }
