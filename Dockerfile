@@ -62,8 +62,6 @@ RUN mix compile
 # Changes to config/runtime.exs don't require recompiling the code
 COPY config/runtime.exs config/
 
-COPY run.sh run.sh
-
 COPY rel rel
 RUN mix release
 
