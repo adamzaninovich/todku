@@ -1,11 +1,11 @@
 <main class="container">
-  <div class="navbar bg-neutral-focus mb-4 text-neutral-content shadow-lg sm:rounded-box md:rounded-box lg:rounded-box xl:rounded-box 2xl:rounded-box">
+  <div class="navbar bg-neutral-focus text-neutral-content shadow-lg sm:mb-4 md:mb-4 lg:mb-4 xl:mb-4 2xl:mb-4 sm:rounded-box md:rounded-box lg:rounded-box xl:rounded-box 2xl:rounded-box">
     <div class="navbar-start">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-ghost btn-circle">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
         </label>
-        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-neutral rounded-box w-52">
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-neutral-focus rounded-box w-52">
           <li><%= live_patch "About", to: Routes.about_path(@socket, :index) %></li>
           <li><%= live_patch "List Poems", to: Routes.poems_index_path(@socket, :index) %></li>
           <li>
@@ -19,12 +19,14 @@
         </ul>
       </div>
     </div>
+
     <div class="navbar-center">
       <%= live_patch to: Routes.poems_index_path(@socket, :index), class: "btn btn-ghost normal-case text-xl" do %>
         <span class="text-primary">Tod</span>
         <span class="text-neutral-content">ku</span>
       <% end %>
     </div>
+
     <div class="navbar-end">
       <label class="swap swap-rotate mr-4" x-data="{light: document.getElementById('page').dataset.theme == Theme.light}">
         <input id="themecontrol" type="checkbox" x-bind:checked="light" x-on:change="if ($event.target.checked) {Theme.set(Theme.light)} else {Theme.set(Theme.dark)}"/>
