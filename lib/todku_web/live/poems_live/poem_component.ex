@@ -9,7 +9,7 @@ defmodule TodkuWeb.PoemLive.PoemComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="card w-full bg-base-100 shadow-xl hover:scale-105 transition-transform">
+    <div id={"poem-#{@poem.id}"} class="card w-full bg-base-100 shadow-xl hover:scale-105 transition-transform">
       <div class="card-body items-center text-center pb-0 px-0">
         <h2 class="card-title text-primary"><%= Calendar.strftime(@poem.date, "%a, %b %d %Y") %></h2>
         <p><%= raw @poem.text %></p>

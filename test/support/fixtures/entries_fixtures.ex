@@ -5,21 +5,6 @@ defmodule Todku.EntriesFixtures do
   """
 
   @doc """
-  Generate a poems.
-  """
-  def poems_fixture(attrs \\ %{}) do
-    {:ok, poems} =
-      attrs
-      |> Enum.into(%{
-        date: ~D[2022-06-13],
-        text: "some text"
-      })
-      |> Todku.Entries.create_poems()
-
-    poems
-  end
-
-  @doc """
   Generate a poem.
   """
   def poem_fixture(attrs \\ %{}) do
@@ -27,7 +12,8 @@ defmodule Todku.EntriesFixtures do
       attrs
       |> Enum.into(%{
         date: ~D[2022-06-16],
-        text: "some text"
+        text:
+          "this is just a test<br/>please don&#39;t count the syllables<br/>they might not be right"
       })
       |> Todku.Entries.create_poem()
 

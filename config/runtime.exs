@@ -21,10 +21,14 @@ if System.get_env("PHX_SERVER") do
 end
 
 password =
-  System.get_env("PHX_PASSWORD") ||
-    raise """
-    environment variable PHX_PASSWORD is missing.
-    """
+  if config_env() == :test do
+    "testpass"
+  else
+    System.get_env("PHX_PASSWORD") ||
+      raise """
+      environment variable PHX_PASSWORD is missing.
+      """
+  end
 
 config :todku, password: password
 

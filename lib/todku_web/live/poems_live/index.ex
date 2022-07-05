@@ -48,7 +48,7 @@ defmodule TodkuWeb.PoemsLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Poem")
+    |> assign(:page_title, "Listing Poems")
     |> assign(:poem, nil)
   end
 
