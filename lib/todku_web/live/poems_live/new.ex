@@ -39,9 +39,8 @@ defmodule TodkuWeb.PoemsLive.New do
         {:ok, _poem} ->
           socket =
             socket
-            |> put_flash(:info, "Poem created successfully")
-            |> assign(:parsed_text, "Paste an entry to get started")
-            |> assign(:parsed_date, "Pick a date ->")
+            |> put_flash(:info, "Poem added")
+            |> push_redirect(to: Routes.poems_index_path(socket, :index))
 
           {:noreply, socket}
 
