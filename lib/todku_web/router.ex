@@ -23,5 +23,7 @@ defmodule TodkuWeb.Router do
     live "/poems/new", PoemsLive.New, :new
     live "/poems/:id", PoemsLive.Show, :show
     live "/poems/:id/show/edit", PoemsLive.Show, :edit
+
+    get "/download", DownloadController, :index
   end
 end
